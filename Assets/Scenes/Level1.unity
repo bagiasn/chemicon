@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: 848b440cf8da24546bcbcbd73c82fcc9,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -3360,10 +3361,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.38814253
-  m_Height: 2.4135485
+  m_Radius: 0.944306
+  m_Height: 2.1430826
   m_Direction: 1
-  m_Center: {x: 0.099206865, y: 1, z: 0.13512897}
+  m_Center: {x: 0.03799075, y: 0.8647671, z: 0.16999757}
 --- !u!54 &616119920
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5492,6 +5493,22 @@ Prefab:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 628741bba812d754fb16a45a9ecf8217, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.023662686
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 628741bba812d754fb16a45a9ecf8217, type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.0455513
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 628741bba812d754fb16a45a9ecf8217, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.6840905
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 628741bba812d754fb16a45a9ecf8217, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.40780067
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 628741bba812d754fb16a45a9ecf8217, type: 3}
   m_IsPrefabParent: 0
@@ -5719,11 +5736,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1156052168}
---- !u!1 &1166807956 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1032135987399940, guid: aca744bb50f260a43a40f25634cefceb,
-    type: 2}
-  m_PrefabInternal: {fileID: 1349354146}
 --- !u!1001 &1171197698
 Prefab:
   m_ObjectHideFlags: 0
@@ -8417,7 +8429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e105d6d28bf08fc4b8a66541999ffa42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLeft: 60
+  timeLeft: 10
   rightText: {fileID: 165669485}
   leftText: {fileID: 1444989955}
 --- !u!64 &1711196510
@@ -9544,15 +9556,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLifes: 2
-  moleculesEachWave: 10
   restartText: {fileID: 1156052170}
   gameOverText: {fileID: 224866742}
   collisionText: {fileID: 1778563931}
   repositoryText: {fileID: 1708901503}
   successText: {fileID: 2044311213}
   gatherHintText: {fileID: 221793343}
-  molecule: {fileID: 1166807956}
-  spawnValues: {x: 4, y: 4, z: 4}
   backgroundMusic: {fileID: 8300000, guid: 5a145599d3a19ea4a96c995f55d1189f, type: 3}
   grabClip: {fileID: 8300000, guid: 084290ee186db8d44b298a78f5f4aecc, type: 3}
 --- !u!82 &1992338358
@@ -9566,7 +9575,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5a145599d3a19ea4a96c995f55d1189f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.598
   m_Pitch: 1
   Loop: 1
   Mute: 0

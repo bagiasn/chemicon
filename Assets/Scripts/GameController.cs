@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
 
     public int maxLifes;
-    public int moleculesEachWave;
     
     public Text restartText;
     public Text gameOverText;
@@ -15,9 +14,6 @@ public class GameController : MonoBehaviour {
     public Text repositoryText;
     public Text successText;
     public Text gatherHintText;
-
-    public GameObject molecule;
-    public Vector3 spawnValues;
 
     public AudioClip backgroundMusic;
     public AudioClip grabClip;
@@ -33,8 +29,7 @@ public class GameController : MonoBehaviour {
     private GameObject collidingGameObject;
 
     void Start () {
-
-        DontDestroyOnLoad(gameObject);
+        Debug.Log("OnStart");
 
         gameOver = false;
         restart = false;
@@ -48,6 +43,8 @@ public class GameController : MonoBehaviour {
         currentLifes = maxLifes;
         repo = new Dictionary<string, int>();
         audioSource = GetComponent<AudioSource>();
+
+        DontDestroyOnLoad(gameObject);
     }
 	
 	void Update () {
@@ -58,6 +55,7 @@ public class GameController : MonoBehaviour {
             {
                 GetComponent<AudioSource>().Stop();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                hasWon = false;
             }
 
             if (Input.GetKeyDown(KeyCode.Q))
@@ -72,6 +70,7 @@ public class GameController : MonoBehaviour {
             {
                 GetComponent<AudioSource>().Stop();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                restart = false;
             }
 
             if (Input.GetKeyDown(KeyCode.Q))
@@ -140,6 +139,9 @@ public class GameController : MonoBehaviour {
     private void GameOver()
     {
         gameOver = true;
+        // Make sure they return to their default value.
+        hasWon = false;
+        restart = false;
         GetComponent<AudioSource>().Stop();
         SceneManager.LoadScene("MainMenu");
     }
