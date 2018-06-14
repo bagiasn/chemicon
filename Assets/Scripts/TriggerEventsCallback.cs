@@ -47,18 +47,21 @@ public class TriggerEventsCallback : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        Debug.Log("Player exited the blue zone.");
-        gameStarted = true;
-        leftText.text = "Find your exercise and collect the right molecules";
-        VideoPlayer videoPlayer = FindObjectOfType<VideoPlayer>();
-        videoPlayer.Stop();
-        AudioSource audio = videoPlayer.GetComponentInParent<AudioSource>();
-        audio.Stop();
+        if (other.tag == "Player")
+        {
+            Debug.Log("Player exited the blue zone.");
+            gameStarted = true;
+            leftText.text = "Find your exercise and collect the right molecules";
+            VideoPlayer videoPlayer = FindObjectOfType<VideoPlayer>();
+            videoPlayer.Stop();
+            AudioSource audio = videoPlayer.GetComponentInParent<AudioSource>();
+            audio.Stop();
 
-        GameController controller = FindObjectOfType<GameController>();
-        controller.EnableMusic();
+            GameController controller = FindObjectOfType<GameController>();
+            controller.EnableMusic();
 
-        StartCoroutine(Timer());
+            StartCoroutine(Timer());
+        }
     }
 
     public void StopTimer()
