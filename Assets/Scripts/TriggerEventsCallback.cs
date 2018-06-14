@@ -47,9 +47,8 @@ public class TriggerEventsCallback : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (!gameStarted && other.tag == "Player")
         {
-            Debug.Log("Player exited the blue zone.");
             gameStarted = true;
             leftText.text = "Find your exercise and collect the right molecules";
             VideoPlayer videoPlayer = FindObjectOfType<VideoPlayer>();

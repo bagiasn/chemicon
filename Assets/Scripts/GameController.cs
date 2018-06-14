@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
     public Text collisionText;
     public Text repositoryText;
     public Text successText;
+    public Text gatherHintText;
 
     public GameObject molecule;
     public Vector3 spawnValues;
@@ -41,7 +42,8 @@ public class GameController : MonoBehaviour {
         restartText.text = "";
         gameOverText.text = "";
         collisionText.text = "";
-        repositoryText.text = "No items collected.";
+        repositoryText.text = "No molecules collected.";
+        gatherHintText.text = "Press E to grab'em!";
 
         currentLifes = maxLifes;
         repo = new Dictionary<string, int>();
