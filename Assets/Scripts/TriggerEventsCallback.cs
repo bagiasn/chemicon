@@ -25,8 +25,8 @@ public class TriggerEventsCallback : MonoBehaviour
             rightText.text = ("Time Left: " + timeLeft);
             if (timeLeft <= 0)
             {
-                StopCoroutine("LoseTime");
-                rightText.text = "Times Up!";
+                StopCoroutine(Timer());
+                rightText.text = "Time's up!";
                 GameController controller = FindObjectOfType<GameController>();
                 if (!controller.hasLevelEnded())
                 {
@@ -59,5 +59,12 @@ public class TriggerEventsCallback : MonoBehaviour
         controller.EnableMusic();
 
         StartCoroutine(Timer());
+    }
+
+    public void StopTimer()
+    {
+        StopCoroutine(Timer());
+
+        gameStarted = false;
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour {
     public Text restartText;
     public Text gameOverText;
     public Text collisionText;
+    public Text repositoryText;
+    public Text successText;
 
     public GameObject molecule;
     public Vector3 spawnValues;
@@ -25,6 +27,7 @@ public class GameController : MonoBehaviour {
     private bool hasWon;
 
     private int currentLifes;
+    private Dictionary<string, int> repo;
 
     private GameObject collidingGameObject;
 
@@ -37,12 +40,29 @@ public class GameController : MonoBehaviour {
         hasWon = false;
         restartText.text = "";
         gameOverText.text = "";
-        currentLifes = maxLifes;
+        collisionText.text = "";
+        repositoryText.text = "No items collected.";
 
+        currentLifes = maxLifes;
+        repo = new Dictionary<string, int>();
         audioSource = GetComponent<AudioSource>();
     }
 	
 	void Update () {
+
+        if (hasWon)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                GetComponent<AudioSource>().Stop();
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                GameOver();
+            }
+        }
 
         if (restart)
         {
@@ -63,7 +83,12 @@ public class GameController : MonoBehaviour {
             if (collidingGameObject != null)
             {
                 audioSource.PlayOneShot(grabClip);
+                // Remove the molecule.
                 collidingGameObject.SetActive(false);
+                // Store its value in our repository.
+                UpdateRepository();
+                // Check for completion only after a valid keystroke to avoid useless checks.
+                checkForCompletion();
                 // This could happen onTriggerEnter so there may be no onTriggerExit.
                 // So clean up the collisionText here.
                 collisionText.text = "";
@@ -105,6 +130,11 @@ public class GameController : MonoBehaviour {
         collisionText.text = tag;
     }
 
+    public bool hasLevelEnded()
+    {
+        return gameOver || restart;
+    }
+
     private void GameOver()
     {
         gameOver = true;
@@ -112,9 +142,53 @@ public class GameController : MonoBehaviour {
         SceneManager.LoadScene("MainMenu");
     }
 
-    public bool hasLevelEnded()
+    private void UpdateRepository()
     {
-        return gameOver || restart;
+        if (repo.ContainsKey(collidingGameObject.tag))
+        {
+            repo[collidingGameObject.tag]++;
+        }
+        else
+        {
+            repo.Add(collidingGameObject.tag, 1);
+        }
+        // First clean the previous text.
+        repositoryText.text = "";
+        foreach (KeyValuePair<string, int> entry in repo)
+        {
+            repositoryText.text += entry.Value + " " + entry.Key + " ";
+        }
+        collidingGameObject = null;
     }
 
+    private void checkForCompletion()
+    {
+        switch(SceneManager.GetActiveScene().name)
+        {
+            case "Level1":
+                // The answer is 1 Ca / 1 C
+                int rightItems = 0;
+                foreach (KeyValuePair<string, int> entry in repo)
+                {
+                    if (entry.Key == "Carbon" && entry.Value == 1)
+                    {
+                        rightItems++;
+                    }
+                    if (entry.Key == "Calcium" && entry.Value == 1)
+                    {
+                        rightItems++;
+                    }
+                }
+                if (rightItems == 2)
+                {
+                    hasWon = true;
+                    successText.text = "That's right! Press space to play the next level or Q to quit";
+                    TriggerEventsCallback timer = FindObjectOfType<TriggerEventsCallback>();
+                    timer.StopTimer();
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }
