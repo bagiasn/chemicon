@@ -60,9 +60,10 @@ public class LevelController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            AppController appInstance = FindObjectOfType<AppController>();
-            appInstance.PlayGrabClip();
-
+            // Play a sound.
+            var playerObject = GameObject.Find("Player");
+            playerObject.GetComponent<AudioSource>().Play();
+            // Gather stuff.
             CollectNearbyMols();
             // Check for completion only after a valid keystroke to avoid useless checks.
             checkForCompletion();
@@ -84,6 +85,16 @@ public class LevelController : MonoBehaviour {
         }
     }
 
+    public void PlayBackgroundMusic()
+    {
+        GetComponent<AudioSource>().Play();
+    }
+
+    public void StopBackgroundMusic()
+    {
+        GetComponent<AudioSource>().Stop();
+    }
+
     public void SetGuideText(string newValue)
     {
         leftText.text = newValue;
@@ -95,8 +106,7 @@ public class LevelController : MonoBehaviour {
         // Make it false to ensure that only one event will be handled.
         gameOver = false;
 
-        AppController appInstance = FindObjectOfType<AppController>();
-        appInstance.StopBackgroundMusic();
+        StopBackgroundMusic();
 
         SceneManager.LoadScene(1);
     }
@@ -106,13 +116,9 @@ public class LevelController : MonoBehaviour {
         Debug.Log("Restarting.");
         // Make it false to ensure that only one event will be handled.
         restart = false;
-        // Stop sound for levels 1 & 3, since they have videos.
-        if (SceneManager.GetActiveScene().buildIndex % 2 == 0)
-        {
-            AppController appInstance = FindObjectOfType<AppController>();
-            appInstance.StopBackgroundMusic();
-        }
 
+        StopBackgroundMusic();
+        
         // Restart the scene.
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -132,6 +138,7 @@ public class LevelController : MonoBehaviour {
     private void CollectNearbyMols()
     {
         var playerObject = GameObject.Find("Player");
+        playerObject.GetComponent<AudioSource>().Play(); 
         Collider[] hitColliders = Physics.OverlapSphere(playerObject.transform.position, 2);
         foreach (Collider col in hitColliders)
         {
@@ -158,6 +165,7 @@ public class LevelController : MonoBehaviour {
             case 3:
                 leftText.text = "Collect the right molecules!";
                 rightText.text = "";
+                GetComponent<AudioSource>().Play();
                 break;
             case 4:
                 leftText.text = "Final level! You know what you have to do!";

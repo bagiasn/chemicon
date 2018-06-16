@@ -67,8 +67,7 @@ public class TimerEvents: MonoBehaviour
             LevelController controller = FindObjectOfType<LevelController>();
             controller.SetGuideText("Find your exercise and collect the right molecules");
             // The time has come! Start the music.
-            AppController appInstance = FindObjectOfType<AppController>();
-            appInstance.PlayBackgroundMusic();
+            controller.PlayBackgroundMusic();
 
             gameStarted = true;
             lastRoutine = StartCoroutine(Timer());
