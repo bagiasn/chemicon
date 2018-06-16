@@ -14,6 +14,7 @@ public class LevelController : MonoBehaviour {
     public Text repositoryText;
     public Text successText;
     public Text gatherHintText;
+    public Text lifesText;
 
     private bool gameOver;
     private bool restart;
@@ -180,6 +181,8 @@ public class LevelController : MonoBehaviour {
         collisionText.text = "";
         repositoryText.text = "No molecules collected.";
         gatherHintText.text = "Press E to grab'em!";
+        AppController appInstance = FindObjectOfType<AppController>();
+        lifesText.text = "Lifes: " + appInstance.GetRemainingLifes();
 
         repo = new Dictionary<string, int>();
     }
