@@ -61,9 +61,6 @@ public class LevelController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            // Play a sound.
-            var playerObject = GameObject.Find("Player");
-            playerObject.GetComponent<AudioSource>().Play();
             // Gather stuff.
             CollectNearbyMols();
             // Check for completion only after a valid keystroke to avoid useless checks.

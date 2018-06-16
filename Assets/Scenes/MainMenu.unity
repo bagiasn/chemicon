@@ -1577,9 +1577,9 @@ MonoBehaviour:
     teacher transfers you in a different dimension. \n\nWatch and listen to what he
     has to say. Then fill in the gaps for the given exercise, by collecting the right
     molecules. They are written on the wall. But be quick since his patience is running
-    out of time and you don't want to repeat the class, do you?\n\nUse A,W,S,D to
-    move around. E to gather molecules.\n\nThe rest is history ...oh wait that's for
-    another game.\n"
+    out and you don't want to repeat the class, do you?\n\nUse A,W,D to move around.
+    E to gather molecules in front of you.\n\nThe rest is history ...oh wait that's
+    for another game.\n"
 --- !u!222 &1710258233
 CanvasRenderer:
   m_ObjectHideFlags: 0
