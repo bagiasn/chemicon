@@ -15,15 +15,11 @@ public class LevelController : MonoBehaviour {
     public Text successText;
     public Text gatherHintText;
 
-
     private bool gameOver;
     private bool restart;
     private bool hasWon;
 
     private Dictionary<string, int> repo;
-
-    private GameObject collidingGameObject;
-
 
     void Start() {
 
@@ -64,38 +60,19 @@ public class LevelController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (collidingGameObject != null)
-            {
-                AppController appInstance = FindObjectOfType<AppController>();
-                appInstance.PlayGrabClip();
-                // Remove the molecule.
-                collidingGameObject.SetActive(false);
-                // Store its value in our repository.
-                UpdateRepository();
-                // Check for completion only after a valid keystroke to avoid useless checks.
-                checkForCompletion();
-                // This could happen onTriggerEnter so there may be no onTriggerExit.
-                // So clean up the collisionText here.
-                collisionText.text = "";
-            }
+            AppController appInstance = FindObjectOfType<AppController>();
+            appInstance.PlayGrabClip();
+
+            CollectNearbyMols();
+            // Check for completion only after a valid keystroke to avoid useless checks.
+            checkForCompletion();
         }
 
     }
 
-  
-
-    public void UpdateColliderTag(String colTag, GameObject colGameObject)
+    public void UpdateColliderTag(String colTag)
     {
         collisionText.text = colTag;
-        if (colTag == "")
-        {
-            collidingGameObject = null;
-        }
-        else
-        {
-            collidingGameObject = colGameObject;
-        }
-
     }
 
     public void SetTimerText(string newValue)
@@ -152,6 +129,20 @@ public class LevelController : MonoBehaviour {
         SceneManager.LoadScene(next);
     }
 
+    private void CollectNearbyMols()
+    {
+        var playerObject = GameObject.Find("Player");
+        Collider[] hitColliders = Physics.OverlapSphere(playerObject.transform.position, 2);
+        foreach (Collider col in hitColliders)
+        {
+            string colTag = col.gameObject.tag;
+            if (colTag == "Hydrogen" || colTag == "Oxygen" || colTag == "Calcium" || colTag == "Carbon"|| colTag == "Zinc" || colTag == "Chlorine")
+            {
+                UpdateRepository(col.gameObject);
+            }
+        }
+    }
+
     private void SetDefault()
     {
         gameOver = false;
@@ -181,8 +172,6 @@ public class LevelController : MonoBehaviour {
         collisionText.text = "";
         repositoryText.text = "No molecules collected.";
         gatherHintText.text = "Press E to grab'em!";
-        
-        collidingGameObject = null;
 
         repo = new Dictionary<string, int>();
     }
@@ -206,15 +195,15 @@ public class LevelController : MonoBehaviour {
         }
     }
 
-    private void UpdateRepository()
+    private void UpdateRepository(GameObject molecule)
     {
-        if (repo.ContainsKey(collidingGameObject.tag))
+        if (repo.ContainsKey(molecule.tag))
         {
-            repo[collidingGameObject.tag]++;
+            repo[molecule.tag]++;
         }
         else
         {
-            repo.Add(collidingGameObject.tag, 1);
+            repo.Add(molecule.tag, 1);
         }
         // First clean the previous text.
         repositoryText.text = "";
@@ -222,7 +211,7 @@ public class LevelController : MonoBehaviour {
         {
             repositoryText.text += entry.Value + " " + entry.Key + " ";
         }
-        collidingGameObject = null;
+        Destroy(molecule);
     }
 
     private void checkForCompletion()

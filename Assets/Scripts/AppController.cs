@@ -24,7 +24,7 @@ public class AppController : MonoBehaviour {
 
         audioSource = GetComponent<AudioSource>();
 
-        // Start the MainMenu/
+        // Start the MainMenu
         SceneManager.LoadScene(1);
     }
 
